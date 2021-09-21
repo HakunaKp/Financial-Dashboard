@@ -1,32 +1,34 @@
 # Financial Dashboard
 
-A financial dashboard application built on Django Framework. Test automated trading strategies and generate easy-to-read results. Run your strategies with confidence when launching with real money.
+- A financial dashboard application built on [Django](https://www.djangoproject.com/). 
+- Configure your own trading strategies with clear, visualized results. 
+- Be able to run your strategy with confidence when using real money.
 
-<br />
-
-> Features
+## Features
 
 - PostgreSQL Database, Django Native ORM
 - Deployment scripts: Docker, Gunicorn / Nginx
 - Modular design, clean code-base
 - User Authentication
 - Mobile Responsive
-<br />
-
-> Links
-
-- [Django Bootstrap 5 Volt](https://appseed.us/admin-dashboards/django-dashboard-volt)
-- [CoinGecko](https://www.coingecko.com/en)
-- [ChartJS](https://www.chartjs.org/)
 
 <br />
 
-> Pictures
+> Users can configure different strategies to test against historical data.
 
-- [Landing Page](https://raw.githubusercontent.com/HakunaKp/Financial-Dashboard/main/demo/landing.PNG)
-- ![Landing Page](http://raw.githubusercontent.com/HakunaKp/Financial-Dashboard/main/demo/landing.PNG/to/img.png)
-- [CoinGecko](https://www.coingecko.com/en)
-- [ChartJS](https://www.chartjs.org/)
+  <img src="demo/configuration.PNG" width="70%" >
+
+> The generated chart displays technical indicator values used in the trading strategy.
+
+  <img src="demo/dashboard2.PNG" width="80%" >
+
+> Save changes to run the strategy and generate results.
+
+  <img src="demo/dashboard.PNG" width="80%" >
+  
+> Prices refreshed every 10 seconds.
+
+  <img src="demo/liveprice.PNG" width="50%" >
 
 <br />
 
