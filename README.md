@@ -24,11 +24,9 @@ A financial dashboard application built on Django Framework. Test automated trad
 
 > Pictures
 
-- [Django Bootstrap 5 Volt](https://appseed.us/admin-dashboards/django-dashboard-volt)
+- [Landing Page](https://raw.githubusercontent.com/HakunaKp/Financial-Dashboard/main/demo/landing.PNG)
 - [CoinGecko](https://www.coingecko.com/en)
 - [ChartJS](https://www.chartjs.org/)
-=======
->>>>>>> 5f830799f1516f69486dc667eb10fb432157d0fc
 
 <br />
 
@@ -209,7 +207,3 @@ Visit `http://localhost:8001` in your browser. The app should be up & running.
 - [ChartJS](https://www.chartjs.org/) - ChartJS official website
 - [Boilerplate Code](https://appseed.us/boilerplate-code) - Boilerplate provided by **AppSeed**
 - [Boilerplate Code](https://github.com/app-generator/boilerplate-code) - Boilerplate published on Github
-<<<<<<< HEAD
-
-=======
->>>>>>> 5f830799f1516f69486dc667eb10fb432157d0fc
