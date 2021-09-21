@@ -24,6 +24,7 @@ A financial dashboard application built on Django Framework. Test automated trad
 > Pictures
 
 - [Landing Page](https://raw.githubusercontent.com/HakunaKp/Financial-Dashboard/main/demo/landing.PNG)
+- ![Landing Page](http://raw.githubusercontent.com/HakunaKp/Financial-Dashboard/main/demo/landing.PNG/to/img.png)
 - [CoinGecko](https://www.coingecko.com/en)
 - [ChartJS](https://www.chartjs.org/)
 
