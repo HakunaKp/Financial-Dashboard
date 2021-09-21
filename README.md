@@ -18,7 +18,6 @@ A financial dashboard application built on Django Framework. Test automated trad
 - [Django Bootstrap 5 Volt](https://appseed.us/admin-dashboards/django-dashboard-volt)
 - [CoinGecko](https://www.coingecko.com/en)
 - [ChartJS](https://www.chartjs.org/)
-<<<<<<< HEAD
 
 <br />
 
