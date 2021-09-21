@@ -6,11 +6,11 @@ A financial dashboard application built on Django Framework. Test automated trad
 
 > Features
 
-- Mobile Responsive
 - PostgreSQL Database, Django Native ORM
+- Deployment scripts: Docker, Gunicorn / Nginx
 - Modular design, clean code-base
 - User Authentication
-- Deployment scripts: Docker, Gunicorn / Nginx
+- Mobile Responsive
 <br />
 
 > Links
@@ -134,7 +134,7 @@ The application can be easily executed in a docker container. The steps:
 > Get the code
 
 ```bash
-$ git clone https://github.com/app-generator/django-dashboard-volt.git
+$ git clone https://github.com/HakunaKp/Financial-Dashboard.git
 $ cd django-dashboard-volt
 ```
 
@@ -198,4 +198,3 @@ Visit `http://localhost:8001` in your browser. The app should be up & running.
 - [ChartJS](https://www.chartjs.org/) - ChartJS official website
 - [Boilerplate Code](https://appseed.us/boilerplate-code) - Boilerplate provided by **AppSeed**
 - [Boilerplate Code](https://github.com/app-generator/boilerplate-code) - Boilerplate published on Github
-
