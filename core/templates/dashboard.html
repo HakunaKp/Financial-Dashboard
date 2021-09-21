@@ -1,0 +1,462 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-12 mb-4">
+            <div class="card bg-secondary-alt shadow-sm">
+
+                <div class="card-header d-sm-flex flex-row align-items-center flex-0">
+                    {% for strategy in strategies %}
+                        <div class="d-block mb-3 mb-sm-0">
+                            <h2 class="h3">{{strategy.strategy_name}}</h2>
+                            <div class="h5 fw-normal mb-2">Beginning Balance: <strong>{{strategy.format_begin_bal}}</strong> | Ending Balance: <strong>{{strategy.format_end_bal}}</strong> </div>
+                            <div class="h6 fw-normal mb-2" id="config1">Frequency: <strong>{{strategy.interval}}</strong> | Period: <strong>{{strategy.timeframe}} days </strong></div>
+                            <div class="h6 fw-normal mb-2" id="config2">Overbought Threshold: <strong>{{strategy.overbought_threshold}}</strong> | Oversold Threshold: <strong>{{strategy.oversold_threshold}}</strong> </div>
+                            <div class="small mt-2"> 
+                                <span class="fw-bold me-2">Net Change</span>
+                                {% if strategy.end_balance > strategy.begin_balance %}                            
+                                    <span class="fas fa-angle-up text-success"></span>                                   
+                                    <span class="text-success fw-bold">{{strategy.net_change}}%</span>
+                                {% else %}
+                                    <span class="fas fa-angle-down text-danger"></span>                                   
+                                    <span class="text-danger fw-bold">{{strategy.net_change}}%</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="card-body p-2">
+                    <canvas id="backtestRSI"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {% for strategy in strategies %}
+            <div class="col-12 col-sm-6 col-xl-4 mb-4">
+                <div class="card border-light shadow-sm">
+                    <div class="card-body">
+                        <div class="row d-block d-xl-flex align-items-center">
+                            <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                                <div class="icon icon-shape icon-md icon-shape-primary rounded me-4 me-sm-0"><span class="fas fa-chart-line"></span></div>
+                            </div>
+                            <div class="col-12 col-xl-7 px-xl-0">
+                                <div class="d-none d-sm-block">
+                                    <h2 class="h5">Starting Balance</h2>
+                                    <h3 class="mb-1">{{strategy.format_begin_bal}}</h3>
+                                </div>
+                                <div class="small mt-2">
+                                    <small> Starting Interval </small>
+                                    <br>                           
+                                    <span > {{strategy.start}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-4 mb-4">
+                <div class="card border-light shadow-sm">
+                    <div class="card-body">
+                        <div class="row d-block d-xl-flex align-items-center">
+                            <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                                <div class="icon icon-shape icon-md icon-shape-secondary rounded me-4"><span class="fas fa-cash-register"></span></div>
+                            </div>
+                            <div class="col-12 col-xl-7 px-xl-0">
+                                <div class="d-none d-sm-block">
+                                    <h2 class="h5"> Ending Balance </h2>
+                                    <h3 class="mb-1">{{strategy.format_end_bal}}</h3>
+                                </div>
+                                <div class="small mt-2">                               
+                                    <small> Ending Interval </small>
+                                    <br>                           
+                                    <span > {{strategy.end}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-4 mb-4">
+                <div class="card border-light shadow-sm">
+                    <div class="card-body">
+                        <div class="row d-block d-xl-flex align-items-center">
+                            <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                                <div class="ct-chart-traffic-share ct-golden-section ct-series-a"></div>
+                            </div>
+                            <div class="col-12 col-xl-7 px-xl-0">
+                                <h2 class="h5 mb-3">Transactions</h2>
+                                <h6 class="fw-normal text-gray"><span class="icon w-20 icon-xs icon-secondary me-1"><span class="fas fa-desktop"></span></span> Buy <a href="#" class="h6">60%</a></h6>
+                                <h6 class="fw-normal text-gray"><span class="icon w-20 icon-xs icon-primary me-1"><span class="fas fa-mobile-alt"></span></span> Hold <a href="#" class="h6">30%</a></h6>
+                                <h6 class="fw-normal text-gray"><span class="icon w-20 icon-xs icon-tertiary me-1"><span class="fas fa-tablet-alt"></span></span> Sell <a href="#" class="h6">10%</a></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-12 col-xl-8 mb-4">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="card border-light shadow-sm">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h2 class="h5">Strategy Configuration</h2>
+                                </div>
+                                <div class="col text-right">
+                                    <form action="" method="POST" id="configform">
+                                        {% csrf_token %}
+                                        <input class="btn btn-sm btn-secondary" type="submit" name="Save Changes" value="Save Changes" />
+                                    </form>                                        
+                                </div>
+                            </div>
+                        </div>
+                        {% for strategy in strategies %}
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Parameter</th>
+                                            <th scope="col">Current Value</th>
+                                            <th scope="col">New Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                Testing File
+                                            </th>
+                                            <td>
+                                                {{strategy.interval}}
+                                            </td>
+                                            <td>
+                                                <select name="interval" id="selected-interval" form="configform">
+                                                    <!--option value="One Minute" {% if strategy.interval == 'One Minute' %}selected{% endif %}>One Minute</option>
+                                                    <option value="Five Minute" {% if strategy.interval == 'Five Minute' %}selected{% endif %}>Five Minute</option-->
+                                                    <option value="Fifteen Minute" {% if strategy.interval == 'Fifteen Minute' %}selected{% endif %}>Fifteen Minute</option>
+                                                    <option value="Half Day" {% if strategy.interval == 'Half Day' %}selected{% endif %}>Half Day</option>
+                                                    <option value="One Day" {% if strategy.interval == 'One Day' %}selected{% endif %}>One Day</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                Period (Days)
+                                            </th>
+                                            <td>
+                                                {{strategy.timeframe}}
+                                            </td>
+                                            <td>
+                                                <select name="timeframe" id="selected-timeframe" form="configform">
+                                                    <option value="12" {% if strategy.timeframe == 12 %}selected{% endif %}>12 Days</option>
+                                                    <option value="13" {% if strategy.timeframe == 13 %}selected{% endif %}>13 Days</option>
+                                                    <option value="14" {% if strategy.timeframe == 14 %}selected{% endif %}>14 Days</option>
+                                                    <option value="15" {% if strategy.timeframe == 15 %}selected{% endif %}>15 Days</option>
+                                                    <option value="16" {% if strategy.timeframe == 16 %}selected{% endif %}>16 Days</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                API Request Frequency
+                                            </th>
+                                            {% if strategy.frequency == 5 %}<td>5 Seconds</td>{% endif %}
+                                            {% if strategy.frequency == 30 %}<td>30 Seconds</td>{% endif %}
+                                            {% if strategy.frequency == 60 %}<td>One Minute</td>{% endif %}
+                                            {% if strategy.frequency == 3600 %}<td>One Hour</td>{% endif %}
+                                            {% if strategy.frequency == 86400 %}<td>One Day</td>{% endif %}
+                                            <td>
+                                                <select name="frequency" id="selected-frequency" form="configform">
+                                                    <option value="5" {% if strategy.frequency == 5 %}selected{% endif %}>5 Seconds</option>
+                                                    <option value="30" {% if strategy.frequency == 30 %}selected{% endif %}>30 Seconds</option>
+                                                    <option value="60" {% if strategy.frequency == 60 %}selected{% endif %}>One Minute</option>
+                                                    <option value="3600" {% if strategy.frequency == 3600 %}selected{% endif %}>One Hour</option>
+                                                    <option value="86400" {% if strategy.frequency == 86400 %}selected{% endif %}>One Day</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                Starting Interval
+                                            </th>
+                                            <td>
+                                                {{strategy.start}}
+                                            </td>
+                                            <td>
+                                                <input name="start" id="selected-start" form="configform" type="text" value="2021/01/01 00:00">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                Ending Interval
+                                            </th>
+                                            <td>
+                                                {{strategy.end}}
+                                            </td>
+                                            <td>
+                                                <input name="end" id="selected-end" form="configform" type="text" value="2021/05/31 00:00">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                Beginning Balance
+                                            </th>
+                                            <td>
+                                                {{strategy.format_begin_bal}}
+                                            </td>
+                                            <td>
+                                                <select name="begin_balance" id="selected-begin_balance" form="configform">
+                                                    <option value="1000">$1,000.00</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                Overbought Threshold
+                                            </th>
+                                            <td>
+                                                {{strategy.overbought_threshold}}
+                                            </td>
+                                            <td>
+                                                <select name="overbought_threshold" id="selected-overbought_threshold" form="configform">
+                                                    <option value="60">60.00</option>
+                                                    <option value="65">65.00</option>
+                                                    <option value="70">70.00</option>
+                                                    <option value="75">75.00</option>
+                                                    <option value="80">80.00</option>
+                                                    <option value="85">85.00</option>
+                                                    <option value="90">90.00</option>
+                                                    <option value="95">90.00</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                Oversold Threshold
+                                            </th>
+                                            <td>
+                                                {{strategy.oversold_threshold}}
+                                            </td>
+                                            <td>
+                                                <select name="oversold_threshold" id="selected-oversold_threshold" form="configform">
+                                                    <option value="45">45.00</option>
+                                                    <option value="40">40.00</option>
+                                                    <option value="35">35.00</option>
+                                                    <option value="30">30.00</option>
+                                                    <option value="25">25.00</option>
+                                                    <option value="20">20.00</option>
+                                                    <option value="15">15.00</option>
+                                                    <option value="10">10.00</option>
+                                                    <option value="5">5.00</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 mb-4">
+            <div class="card border-light shadow-sm">
+                <div class="card-header border-bottom border-light d-flex justify-content-between">
+                    <h2 class="h5 mb-0">Live Prices</h2>
+                    <a href="#" class="btn btn-sm btn-secondary">See all</a>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush list my--3">
+                        {% for coin in coins %}
+                            <li class="list-group-item px-0">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <a href="#" class="user-avatar">
+                                            <img class="rounded-circle" alt="Image placeholder" src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg">
+                                        </a>
+                                    </div>
+                                    <div class="col-auto ms--2">
+                                        <h4 class="h6 mb-0">
+                                            <a href="#!">{{coin.name}}</a>
+                                        </h4>
+                                        <span class="text-success">●</span>
+                                        <small>{{coin.symbol}}</small>
+                                    </div>
+                                    <div class="col text-right">
+                                        <a href="#" class="btn btn-sm btn-tertiary"><i class="fas fa-calendar-check me-1"></i><div id="lp{{coin.name}}">{{coin.cur_val}}</div></a>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $("#selected-start").datetimepicker();
+            $("#selected-end").datetimepicker();
+        });
+    </script>    
+
+    <script> 
+
+        function getPrice(url)
+        {
+            theUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=' + url + '&vs_currencies=usd'
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() { 
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                {
+                    coinarr = (xmlHttp.responseText).split(',');
+                    for (var i=0; i<coinarr.length; i++){
+                        var arr = coinarr[i].split(':');
+                        var coin = (arr[0].replace('{', '')).replace(/['"]+/g, '');
+                        var price = (arr[2].replace('}', '')).replace('}', '');
+                        var lp_id = 'lp'+coin.charAt(0).toUpperCase() + coin.slice(1);
+                        document.getElementById(lp_id).innerHTML = price;
+
+                    }
+                }
+            }
+            xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+            xmlHttp.send(null);
+        }
+
+        setInterval(function() {
+            getPrice('{{url|safe}}');
+        }, 5000);   // Interval set to 4 seconds
+
+        function getSelection(interval) {
+            const selectedValues = [].filter
+                    .call(interval.options, option => option.selected)
+                    .map(option => option.text);
+                
+            return selectedValues
+        }
+
+        function getArrayData(str) {
+
+            var return_data = []
+
+            // first item has different formatting
+            var arr = str.split(',')
+            let temp = arr[1]
+            let temp1 = temp.substring(3)
+            arr[1] = temp1.replace(/['"]+/g, '')
+            return_data.push(arr[1])
+
+            // 2 - (n-1) items have same formatting
+            for (let i = 2; i < arr.length-1; i++) { 
+                var temp2 = (arr[i].replace(/['"]+/g, '')).substring(1)
+                return_data.push(temp2)
+            }
+
+            // nth item has different formatting
+            let temp3 = arr[arr.length-1]
+            arr[arr.length-1] = temp3.substring(0, temp3.length - 2);
+            return_data.push(arr[arr.length-1])
+            
+            return return_data
+        }
+
+        var rsi_string = "{{rsi_results|safe}}";
+        var time_string = "{{time_results|safe}}";
+        var closing_string = "{{closing_results|safe}}";
+
+        var rsi_arr = getArrayData(rsi_string)
+        var time_arr = getArrayData(time_string)
+        var closing_arr = getArrayData(closing_string)
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: time_arr,
+                datasets: [  
+                {
+                    data: rsi_arr,
+                    label: 'RSI',
+                    borderWidth: 1,
+                    yAxisID: 'y-axis-1',
+                },
+                {
+                    data: closing_arr,
+                    label: 'Closing Value',
+                    borderWidth: 1,
+                    yAxisID: 'y-axis-2',
+                },
+            ]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    colorschemes: {
+                        scheme: 'brewer.Paired3'
+                    }
+                },
+                stacked: false,
+                scales: {
+                    yAxes: [
+                        {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            id: 'y-axis-1',
+                        },
+                        {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            id: 'y-axis-2',
+                            gridLines: {
+                                drawOnArea: false,
+                            },
+                        },
+                    ],
+                },
+            }
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById('backtestRSI').getContext('2d');
+            window.myLine = new Chart(ctx, config);
+
+                        /*
+
+            const savebtn = document.querySelector('#save-btn');
+            const selectedinterval = document.querySelector('#selected-interval')
+            savebtn.onclick = (e) => {
+                e.preventDefault();
+                interval = getSelection(selectedinterval)
+                // here we want to make ajax call passing interval and other data
+                console.log(interval)
+            };
+*/
+        };
+
+    </script>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
