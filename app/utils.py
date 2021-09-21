@@ -32,8 +32,14 @@ def get_live_prices():
         #print(list(price_dict[item].values()))
         price = list(price_dict[item].values())
         close_input = float(price[0])
-        coin = Coin(name=item.title(), symbol=item, cur_val=close_input)
-        coin.save()
+        namelc = item
+        if (item=='bitcoin'): cs = 'BTC'
+        elif (item=='ethereum'): cs = 'ETH'
+        elif (item=='cardano'): cs = 'ADA'
+        elif (item=='binancecoin'): 
+            cs = 'BNB' 
+            namelc = 'binance-coin'
+        coin = Coin(name=item.title(), symbol=cs, name_lc = namelc, symbol_lc = cs.lower(), cur_val=close_input)
         coins.append(coin)
 
     return coins

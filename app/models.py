@@ -12,8 +12,10 @@ CG = CoinGeckoAPI()
 locale.setlocale( locale.LC_ALL, '' )
 
 class Coin(models.Model):
-    name = models.CharField(max_length=50)
-    symbol = models.CharField(max_length=50)
+    name = models.CharField(default = 'Bitcoin', max_length=50)
+    name_lc = models.CharField(default = 'bitcoin', max_length=50)
+    symbol = models.CharField(default = 'BTC', max_length=50)
+    symbol_lc = models.CharField(default = 'btc', max_length=50)
     cur_val = models.DecimalField(default=100000.00, decimal_places=2, max_digits=20)
 
 class BT_RSI_Strategy(models.Model):

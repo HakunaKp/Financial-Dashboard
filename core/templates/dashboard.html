@@ -281,7 +281,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <a href="#" class="user-avatar">
-                                            <img class="rounded-circle" alt="Image placeholder" src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg">
+                                            <img class="rounded-circle" alt="Image placeholder" src="https://cryptologos.cc/logos/{{coin.name_lc}}-{{coin.symbol_lc}}-logo.svg">
                                         </a>
                                     </div>
                                     <div class="col-auto ms--2">
@@ -342,7 +342,7 @@
 
         setInterval(function() {
             getPrice('{{url|safe}}');
-        }, 5000);   // Interval set to 4 seconds
+        }, 10000);   // Interval set to 10 seconds
 
         function getSelection(interval) {
             const selectedValues = [].filter

@@ -1,23 +1,31 @@
 # Financial Dashboard
 
-A financial dashboard application built on Django Framework. This application is built to test automated trading strategies and visualize results. It allows the user to test strategies and launch the best results with real money.
+A financial dashboard application built on Django Framework. Test automated trading strategies and generate easy-to-read results. Run your strategies with confidence when launching with real money.
 
 <br />
 
 > Features
 
-- Mobile Responsive
 - PostgreSQL Database, Django Native ORM
+- Deployment scripts: Docker, Gunicorn / Nginx
 - Modular design, clean code-base
 - User Authentication
-- Deployment scripts: Docker, Gunicorn / Nginx
+- Mobile Responsive
 <br />
 
 > Links
 
-- [Django Bootstrap 5 Volt](https://appseed.us/admin-dashboards/django-dashboard-volt) - Django Bootstrap 5 Volt page
-- [Django Bootstrap 5 Volt](https://django-volt-dashboard.appseed-srv1.com/) - CoinGecko documentation
-- [Django Bootstrap 5 Volt](https://docs.appseed.us/products/django-dashboards/volt) - ChartJS documentation
+- [Django Bootstrap 5 Volt](https://appseed.us/admin-dashboards/django-dashboard-volt)
+- [CoinGecko](https://www.coingecko.com/en)
+- [ChartJS](https://www.chartjs.org/)
+
+<br />
+
+> Pictures
+
+- [Django Bootstrap 5 Volt](https://appseed.us/admin-dashboards/django-dashboard-volt)
+- [CoinGecko](https://www.coingecko.com/en)
+- [ChartJS](https://www.chartjs.org/)
 
 <br />
 
@@ -25,8 +33,8 @@ A financial dashboard application built on Django Framework. This application is
 
 ```bash
 $ # Get the code
-$ git clone https://github.com/app-generator/django-dashboard-volt.git
-$ cd django-dashboard-volt
+$ git clone https://github.com/HakunaKp/Financial-Dashboard.git
+$ cd financial-dashboard
 $
 $ # Virtualenv modules installation (Unix based systems)
 $ virtualenv env
@@ -36,8 +44,8 @@ $ # Virtualenv modules installation (Windows based systems)
 $ # virtualenv env
 $ # .\env\Scripts\activate
 $
-$ # Install modules - SQLite Storage
-$ pip3 install -r requirements.txt
+$ # Install modules
+$ pip install -r requirements.txt
 $
 $ # Create tables
 $ python manage.py makemigrations
@@ -134,7 +142,7 @@ The application can be easily executed in a docker container. The steps:
 > Get the code
 
 ```bash
-$ git clone https://github.com/app-generator/django-dashboard-volt.git
+$ git clone https://github.com/HakunaKp/Financial-Dashboard.git
 $ cd django-dashboard-volt
 ```
 
@@ -191,13 +199,11 @@ Visit `http://localhost:8001` in your browser. The app should be up & running.
 
 <br />
 
-## Credits & Links
+## Credits
 
-- [Django](https://www.djangoproject.com/) - The official website
-- [Boilerplate Code](https://appseed.us/boilerplate-code) - Index provided by **AppSeed**
-- [Boilerplate Code](https://github.com/app-generator/boilerplate-code) - Index published on Github
+- [Django](https://www.djangoproject.com/) - Django official website
+- [CoinGecko](https://www.coingecko.com/en) - CoinGecko official website
+- [ChartJS](https://www.chartjs.org/) - ChartJS official website
+- [Boilerplate Code](https://appseed.us/boilerplate-code) - Boilerplate provided by **AppSeed**
+- [Boilerplate Code](https://github.com/app-generator/boilerplate-code) - Boilerplate published on Github
 
-<br />
-
----
-[Django Bootstrap 5](https://appseed.us/admin-dashboards/django-dashboard-volt) Volt - Provided by **AppSeed [App Generator](https://appseed.us/app-generator)**.
